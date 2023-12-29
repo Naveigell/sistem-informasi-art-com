@@ -23,9 +23,10 @@
     {{-- Custom styles --}}
     <link rel="stylesheet" href="">
     <!-- Styles -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.2/dist/sweetalert2.min.css" integrity="sha256-ZCK10swXv9CN059AmZf9UzWpJS34XvilDMJ79K+WOgc=" crossorigin="anonymous">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{asset('css/style.css')}}">
- 
+
 </head>
 <body class="bg">
     <nav class="navbar navbar-expand-md navbar bg-dark border-bottom border-body sticky-top shadow-sm">
@@ -59,7 +60,7 @@
                             <a id="navbarDropdown" class="nav-link dropdown-toggle text-white h5" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                 <i class="fa fa-user"></i> <b>{{ Auth::user()->name }}</b>
                             </a>
-                            
+
 
                             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                 @auth
@@ -130,6 +131,7 @@
     }
     });
 </script>
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.2/dist/sweetalert2.all.min.js" integrity="sha256-iSkyJ41luwYhZX4JnDUop92wix0y8SBGAW5tCnnCfZ4=" crossorigin="anonymous"></script>
 @include('sweetalert::alert')
+@stack('script')
 </html>

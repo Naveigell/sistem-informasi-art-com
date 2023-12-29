@@ -14,7 +14,13 @@ class ProductCollectionController extends Controller
      */
     public function index()
     {
-        return view('artist.product.product-collections');
+        /**
+         * @var \App\Models\User $user
+         */
+        $user     = auth()->user();
+        $products = $user->products()->latest()->paginate(10);
+
+        return view('artist.product.product-collections', compact('products'));
     }
 
     /**

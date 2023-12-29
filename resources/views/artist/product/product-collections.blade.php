@@ -17,6 +17,10 @@
       </li>
     </ul>
   </div>
+
+  @if($message = session('success'))
+      <x-alerts.alert :message="$message"></x-alerts.alert>
+  @endif
   <!-- Table -->
   <table class="table table-bordered">
     <thead>
@@ -31,58 +35,49 @@
     </thead>
 
     <tbody>
-        <tr>
-            <td>1</td>
-            <td>Potrait cartoon style</td>
-            <td><img src="{{ URL::asset('/img/thumbnail.png') }}" class="img-thumbnail w-10 h-10" alt="Art"></td>
-            <td>Rp400.000</td>
-            <td>1</td>
-            <td>
-                <a href="/artist/product/edit" class="btn btn-primary">Edit</a>
-                <a href="/delete" class="btn btn-danger" data-confirm-delete="true">Delete</a>
-            </td>
-        </tr>
-
-        <tr>
-            <td>2</td>
-            <td>Potrait JoJo style</td>
-            <td><img src="{{ URL::asset('/img/thumbnail.png') }}" class="img-thumbnail w-10 h-10" alt="Art"></td>
-            <td>Rp300.000</td>
-            <td>1</td>
-            <td>
-                <a href="/artist/product/edit" class="btn btn-primary">Edit</a>
-                <a href="/delete" class="btn btn-danger" data-confirm-delete="true">Delete</a>
-            </td>
-        </tr>
-
-        <tr>
-            <td>3</td>
-            <td>Winter Character custom</td>
-            <td>
-                <img src="{{ URL::asset('/img/thumbnail.png') }}" class="img-thumbnail w-10 h-10" alt="Avatar"></td>
-            <td>Rp500.000</td>
-            <td>1</td>
-            <td>
-                <a href="/artist/product/edit" class="btn btn-primary">Edit</a>
-                <a href="/delete" class="btn btn-danger" data-confirm-delete="true">Delete</a>
-            </td>
-        </tr>
+        @foreach($products as $product)
+            <tr>
+                <td>{{ $products->firstItem() + $loop->index }}</td>
+                <td>{{ $product->name }}</td>
+                <td>
+                    <img style="width: 180px; height: 150px;" src="{{ $product->image_url }}" class="img-thumbnail w-10 h-10" alt="{{ $product->name }}">
+                </td>
+                <td>{{ $product->rupiah_formatted_price }}</td>
+                <td>1</td>
+                <td>
+                    <a href="{{ route('artist.products.edit', $product) }}" class="btn btn-primary">Edit</a>
+                    <button data-action="{{ route('artist.products.destroy', $product) }}" class="btn btn-danger btn-delete" data-confirm-delete="true">Delete</button>
+                </td>
+            </tr>
+        @endforeach
     </tbody>
+      <form action="" id="form-delete" method="post">@csrf @method('DELETE')</form>
 </table>
 
 <!-- Card footer-->
-<div class="card-footer">
-    <!-- Pagination -->
-    <nav aria-label="Page navigation">
-        <ul class="pagination justify-content-center">
-          <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-          <li class="page-item"><a class="page-link" href="#">1</a></li>
-          <li class="page-item"><a class="page-link" href="#">2</a></li>
-          <li class="page-item"><a class="page-link" href="#">3</a></li>
-          <li class="page-item"><a class="page-link" href="#">Next</a></li>
-        </ul>
-      </nav>
+<div class="card-footer d-flex justify-content-center">
+    {{ $products->links() }}
 </div>
 </div>
 </div>
 @endsection
+
+@push('script')
+    <script>
+        $('.btn-delete').on('click', function (e) {
+            Swal.fire({
+                title: "Apakah anda yakin?",
+                text: "Aksi ini tidak akan bisa di ulang!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Ya, hapus!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $('#form-delete').attr('action', $(this).data('action')).submit();
+                }
+            });
+        });
+    </script>
+@endpush

@@ -20,7 +20,7 @@
                     <div class="text-center">
                         Welcome, {{Auth::user()->name}} <br>
                         <b>You are in the artist dashboard. Explore your creativity here !</b> <br> <br>
-                        <a href="/artist/product" class="btn btn-primary">Create New Art</a>
+                        <a href="{{ route('artist.products.index') }}" class="btn btn-primary">Create New Art</a>
                     </div>
                 </div>
             </div>

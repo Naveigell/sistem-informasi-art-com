@@ -18,9 +18,12 @@
     </ul>
   </div>
   <div class="card-body">
+      @if($message = session('success'))
+          <x-alerts.alert :message="$message"></x-alerts.alert>
+      @endif
     <h5 class="card-title">Welcome to ART & TERM Page</h5>
     <p class="card-text">Do you want to upload your illustration?</p>
-    <a href="/artist/product/upload" class="btn btn-primary">Upload Product</a>
+    <a href="{{ route('artist.products.create') }}" class="btn btn-primary">Upload Product</a>
   </div>
 </div>
 

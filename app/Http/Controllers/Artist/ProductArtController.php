@@ -23,7 +23,7 @@ class ProductArtController extends Controller
 
     public function uploadProduct()
     {
-        return view('artist.product.upload-product');
+        return view('artist.product.form');
     }
 
     public function collectionProduct()
