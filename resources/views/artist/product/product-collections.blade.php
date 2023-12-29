@@ -10,10 +10,10 @@
   <div class="card-header">
     <ul class="nav nav-tabs card-header-tabs">
       <li class="nav-item">
-        <a class="nav-link active" href="/artist/product/upload">Upload Your Illustration</a>
+        <a class="nav-link" href="{{ route('artist.products.index') }}">Upload Your Illustration</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link active" href="/artist/product/collections">Your Product</a>
+        <a class="nav-link active" href="{{ route('artist.products-collections.index') }}">Your Product</a>
       </li>
     </ul>
   </div>

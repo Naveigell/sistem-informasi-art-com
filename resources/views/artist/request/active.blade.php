@@ -9,13 +9,13 @@
   <div class="card-header">
     <ul class="nav nav-tabs card-header-tabs">
       <li class="nav-item">
-        <a class="nav-link active" href="/artist/request/manage">Incoming Request</a>
+        <a class="nav-link" href="{{ route('artist.requests.index', ["type" => \App\Enums\RequestType::INCOMING]) }}">Incoming Request</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link active" href="/artist/request/active">Active Request</a>
+        <a class="nav-link active" href="{{ route('artist.requests.index', ["type" => \App\Enums\RequestType::ACTIVE]) }}">Active Request</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link active" href="/artist/request/finish">Finish Request</a>
+        <a class="nav-link" href="{{ route('artist.requests.index', ["type" => \App\Enums\RequestType::FINISH]) }}">Finish Request</a>
       </li>
     </ul>
   </div>
@@ -45,9 +45,9 @@
         <td>Potrait cartoon style</td>
         <td>1</td>
         <td>Lunas</td>
-        <td>Complete</td>
+        <td>WIP</td>
         <td>
-            <a href="/delete" class="btn btn-danger" data-confirm-delete="true">Delete</a>
+            <a href="complete-project.html" class="btn btn-primary">Complete</a>
         </td>
     </tr>
     </tbody>
@@ -66,6 +66,9 @@
         </ul>
       </nav>
 </div>
+
 </div>
+
 </div>
+
 @endsection

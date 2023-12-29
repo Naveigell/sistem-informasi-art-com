@@ -2,26 +2,19 @@
 
 namespace App\Http\Controllers\Artist;
 
-use App\Enums\RequestType;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class RequestController extends Controller
+class RequestReviewController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
+     * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        if (\request()->query('type') == RequestType::ACTIVE) {
-            return view('artist.request.active');
-        } elseif (\request()->query('type') == RequestType::FINISH) {
-            return view('artist.request.finish');
-        }
-
-        return view('artist.request.incoming');
+        //
     }
 
     /**
@@ -60,11 +53,11 @@ class RequestController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
     public function edit($id)
     {
-        //
+        return view('artist.request.review');
     }
 
     /**

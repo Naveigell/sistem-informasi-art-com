@@ -13,11 +13,11 @@ class RequestArtistController extends Controller
     }
 
     public function activeRequest(){
-        return view('artist.request.active-request');
+        return view('artist.request.active');
     }
 
     public function finishRequest(){
-        return view('artist.request.finish-request');
+        return view('artist.request.finish');
     }
 
     public function reviewRequest(){

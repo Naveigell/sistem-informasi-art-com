@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers\Artist;
 
-use App\Enums\RequestType;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class RequestController extends Controller
+class ProductCollectionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,13 +14,7 @@ class RequestController extends Controller
      */
     public function index()
     {
-        if (\request()->query('type') == RequestType::ACTIVE) {
-            return view('artist.request.active');
-        } elseif (\request()->query('type') == RequestType::FINISH) {
-            return view('artist.request.finish');
-        }
-
-        return view('artist.request.incoming');
+        return view('artist.product.product-collections');
     }
 
     /**
