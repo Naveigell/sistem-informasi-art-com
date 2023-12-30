@@ -10,8 +10,22 @@ class Request extends Model
     use HasFactory;
 
     protected $fillable = [
-        'product_id', 'quantity', 'requested_date', 'status',
+        'product_id', 'email', 'quantity', 'requested_date', 'status', 'description',
     ];
+
+    protected $casts = [
+        'requested_date' => 'date',
+    ];
+
+    /**
+     * Retrieve the client associated with this instance.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function client()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 
     /**
      * Retrieves the payment data associated with this object.
@@ -21,5 +35,15 @@ class Request extends Model
     public function payment()
     {
         return $this->hasOne(Payment::class);
+    }
+
+    /**
+     * Retrieves the associated product.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
     }
 }

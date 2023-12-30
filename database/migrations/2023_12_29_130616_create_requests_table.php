@@ -17,8 +17,11 @@ class CreateRequestsTable extends Migration
             $table->id();
             $table->foreignId('product_id')->constrained('products')->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignId('user_id')->constrained('users')->cascadeOnUpdate()->cascadeOnDelete();
+            // different email that client will input, this email will be used to send photos from artists
+            $table->string('email');
             $table->unsignedInteger('quantity');
             $table->timestamp('requested_date');
+            $table->text('description');
             $table->string('status');
             $table->timestamps();
         });

@@ -50,26 +50,33 @@ class RequestReviewController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Edit the given review.
      *
-     * @param  int  $id
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
+     * @param \App\Models\Request $review The review to be edited.
+     * @return \Illuminate\View\View The view for editing the review.
      */
-    public function edit($id)
+    public function edit(\App\Models\Request $review)
     {
-        return view('artist.request.review');
+        $review->load('client', 'product');
+
+        return view('artist.request.review', compact('review'));
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the resource.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Request $request the HTTP request object
+     * @param \App\Models\Request $review the review model instance
+     * @param mixed $type the type of the resource
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, \App\Models\Request $review, $type)
     {
-        //
+        // TODO: admin can bypass the type, not updated to accepted but updated to finished directly, @see the route
+        //       you can add more validation for this
+        $review->update(['status' => $type]);
+
+        return redirect()->back()->with('success', 'Berhasil memperbarui status.');
     }
 
     /**

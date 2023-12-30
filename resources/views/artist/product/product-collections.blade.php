@@ -66,13 +66,13 @@
     <script>
         $('.btn-delete').on('click', function (e) {
             Swal.fire({
-                title: "Apakah anda yakin?",
-                text: "Aksi ini tidak akan bisa di ulang!",
+                title: "Are you sure?",
+                text: "This action cannot be undone!",
                 icon: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#3085d6",
                 cancelButtonColor: "#d33",
-                confirmButtonText: "Ya, hapus!"
+                confirmButtonText: "Ya, delete!"
             }).then((result) => {
                 if (result.isConfirmed) {
                     $('#form-delete').attr('action', $(this).data('action')).submit();

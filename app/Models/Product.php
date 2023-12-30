@@ -14,6 +14,16 @@ class Product extends Model
 
     protected $fillable = ['name', 'image', 'price', 'description'];
 
+    /**
+     * A description of the artist function.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function artist()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
     public function deleteImage()
     {
         Storage::delete('public/products/images/' . $this->image);

@@ -9,7 +9,7 @@
                     <a class="nav-link text-black" href="#"><i class="fas fa-envelope me-1"></i>Art and Terms</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-black" href="{{ route('artist.requests.index') }}"><i class="fas fa-folder me-1"></i>Manage Request</a>
+                    <a class="nav-link text-black" href="{{ route('artist.requests.incoming') }}"><i class="fas fa-folder me-1"></i>Manage Request</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link text-black" href="#"><i class="fas fa-comments me-1"></i>Message</a>

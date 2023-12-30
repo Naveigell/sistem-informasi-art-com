@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Artist;
 
+use App\Enums\PaymentStatus;
+use App\Enums\RequestStatus;
 use App\Enums\RequestType;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -9,19 +11,63 @@ use Illuminate\Http\Request;
 class RequestController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of the finish resource.
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
-    public function index()
+    public function finish()
     {
-        if (\request()->query('type') == RequestType::ACTIVE) {
-            return view('artist.request.active');
-        } elseif (\request()->query('type') == RequestType::FINISH) {
-            return view('artist.request.finish');
-        }
+        $requests = \App\Models\Request::whereIn('status', [RequestStatus::FINISHED])
+            ->whereHas('payment', function ($query) {
+                $query->where('status', PaymentStatus::PAID);
+            })
+            ->whereHas('product', function ($query) {
+                $query->where('user_id', auth()->user()->id);
+            })
+            ->latest()
+            ->with('product.artist', 'client')
+            ->paginate(10);
 
-        return view('artist.request.incoming');
+        return view('artist.request.finish', compact('requests'));
+    }
+
+    /**
+     * Display a listing of the request resource.
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
+     */
+    public function active()
+    {
+        $requests = \App\Models\Request::whereIn('status', [RequestStatus::APPROVED])
+            ->whereHas('payment', function ($query) {
+                $query->where('status', PaymentStatus::PAID);
+            })
+            ->whereHas('product', function ($query) {
+                $query->where('user_id', auth()->user()->id);
+            })
+            ->latest()
+            ->with('product.artist', 'client')
+            ->paginate(10);
+
+        return view('artist.request.active', compact('requests'));
+    }
+
+    /**
+     * Display a listing of the incoming resource.
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
+     */
+    public function incoming()
+    {
+        $requests = \App\Models\Request::whereIn('status', [RequestStatus::PENDING, RequestStatus::REJECTED])
+            ->whereHas('product', function ($query) {
+                $query->where('user_id', auth()->user()->id);
+            })
+            ->latest()
+            ->with('product.artist', 'client')
+            ->paginate(10);
+
+        return view('artist.request.incoming', compact('requests'));
     }
 
     /**
@@ -82,11 +128,13 @@ class RequestController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  \App\Models\Request  $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Routing\Redirector
      */
-    public function destroy($id)
+    public function destroy(\App\Models\Request $request)
     {
-        //
+        $request->delete();
+
+        return redirect()->back()->with('success', 'Request berhasil dihapus');
     }
 }
