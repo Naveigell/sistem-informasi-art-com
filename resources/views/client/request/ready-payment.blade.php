@@ -13,13 +13,13 @@
                         <a class="nav-link" href="{{ route('client.requests.history') }}">Request History</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('client.requests.ready-payment') }}">Ready to Pay</a>
+                        <a class="nav-link active" href="{{ route('client.requests.ready-payment') }}">Ready to Pay</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('client.requests.active') }}">Active Request</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="{{ route('client.requests.ready-review') }}">Ready to Review</a>
+                        <a class="nav-link" href="{{ route('client.requests.ready-review') }}">Ready to Review</a>
                     </li>
                 </ul>
             </div>
@@ -30,11 +30,10 @@
                 <tr>
                     <th>No.</th>
                     <th>Product Name</th>
-                    <th>Date Requested</th>
-                    <th>Finish Date</th>
                     <th>Qty</th>
+                    <th>Date Requested</th>
+                    <th>Review Status</th>
                     <th>Payment Status</th>
-                    <th>Project Status</th>
                     <th>Action</th>
                 </tr>
                 </thead>
@@ -43,13 +42,12 @@
                 <tr>
                     <td>1</td>
                     <td>Potrait cartoon style</td>
-                    <td>1 januari 2023</td>
-                    <td>14 Januari 2023</td>
                     <td>1</td>
-                    <td>Lunas</td>
-                    <td>Completed</td>
+                    <td>1 januari 2023</td>
+                    <td>Pending</td>
+                    <td>Belum Lunas</td>
                     <td>
-                        <a href="#" class="btn btn-primary">Review Now</a>
+                        <a href="{{ route('client.payments.edit', 1) }}" class="btn btn-primary">Pay Now</a>
                     </td>
                 </tr>
                 </tbody>
@@ -68,8 +66,6 @@
                     </ul>
                 </nav>
             </div>
-
         </div>
-
     </div>
 @endsection

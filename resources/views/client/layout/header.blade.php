@@ -5,7 +5,7 @@
           <div class="container-fluid">
               <ul class="navbar-nav d-flex flex-row me-1">
                   <li class="nav-item">
-                      <a class="nav-link text-black" href="/client/request"><i class="fas fa-envelope me-1"></i>My Request</a>
+                      <a class="nav-link text-black" href="{{ route('client.requests.history') }}"><i class="fas fa-envelope me-1"></i>My Request</a>
                   </li>
                   <li class="nav-item">
                       <a class="nav-link text-black" href="#"><i class="fas fa-thumbs-up me-1"></i>My Rating and Review</a>

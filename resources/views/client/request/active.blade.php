@@ -16,10 +16,10 @@
                         <a class="nav-link" href="{{ route('client.requests.ready-payment') }}">Ready to Pay</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('client.requests.active') }}">Active Request</a>
+                        <a class="nav-link active" href="{{ route('client.requests.active') }}">Active Request</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="{{ route('client.requests.ready-review') }}">Ready to Review</a>
+                        <a class="nav-link" href="{{ route('client.requests.ready-review') }}">Ready to Review</a>
                     </li>
                 </ul>
             </div>
@@ -31,11 +31,9 @@
                     <th>No.</th>
                     <th>Product Name</th>
                     <th>Date Requested</th>
-                    <th>Finish Date</th>
                     <th>Qty</th>
                     <th>Payment Status</th>
                     <th>Project Status</th>
-                    <th>Action</th>
                 </tr>
                 </thead>
 
@@ -44,13 +42,9 @@
                     <td>1</td>
                     <td>Potrait cartoon style</td>
                     <td>1 januari 2023</td>
-                    <td>14 Januari 2023</td>
                     <td>1</td>
                     <td>Lunas</td>
-                    <td>Completed</td>
-                    <td>
-                        <a href="#" class="btn btn-primary">Review Now</a>
-                    </td>
+                    <td>WIP</td>
                 </tr>
                 </tbody>
             </table>
@@ -70,6 +64,5 @@
             </div>
 
         </div>
-
     </div>
 @endsection

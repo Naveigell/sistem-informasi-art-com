@@ -4,22 +4,22 @@
 
 @section('content')
 
-<div class="container">
-    <!-- Card -->
-  <div class="card text-center">
-    <div class="card-header">
-      <ul class="nav nav-tabs card-header-tabs">
-        <li class="nav-item">
-          <a class="nav-link active" href="/client/request">Request History</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active" href="/client/request/pay">Ready to Pay</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active" href="/client/request/active-request">Active Request</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active" href="/client/request/ready-review">Ready to Review</a>
+    <div class="container">
+        <!-- Card -->
+        <div class="card text-center">
+            <div class="card-header">
+                <ul class="nav nav-tabs card-header-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ route('client.requests.history') }}">Request History</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('client.requests.ready-payment') }}">Ready to Pay</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('client.requests.active') }}">Active Request</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('client.requests.ready-review') }}">Ready to Review</a>
         </li>
       </ul>
     </div>
@@ -47,7 +47,7 @@
             <td>Pending</td>
             <td>Belum Lunas</td>
             <td>
-                <a href="/client/request/detail" class="btn btn-primary">View Detail</a>
+                <a href="{{ route('client.requests.show', 1) }}" class="btn btn-primary">View Detail</a>
                 <a href="#" class="btn btn-danger">Cancel</a>
             </td>
         </tr>
@@ -82,7 +82,7 @@
         <div class="row justify-content-center">
             <div class="col-md-8 text-center">
                 <p class="text-muted my-4">Desciption</p>
-                <button class="btn-btn-primary" data-bs-toggle="modal" 
+                <button class="btn-btn-primary" data-bs-toggle="modal"
                 data-bs-target="#reg-modal">Tombol</button>
             </div>
         </div>
