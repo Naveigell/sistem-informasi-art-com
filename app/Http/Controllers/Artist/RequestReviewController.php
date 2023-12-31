@@ -57,6 +57,7 @@ class RequestReviewController extends Controller
      */
     public function edit(\App\Models\Request $review)
     {
+        // TODO: added a validation that if only $request with pending status can access this page
         $review->load('client', 'product');
 
         return view('artist.request.review', compact('review'));
@@ -76,7 +77,17 @@ class RequestReviewController extends Controller
         //       you can add more validation for this
         $review->update(['status' => $type]);
 
-        return redirect()->back()->with('success', 'Berhasil memperbarui status.');
+        $redirectResponse = redirect();
+
+        // if the request has a redirect, we redirect to given location
+        // otherwise we redirect back
+        if ($redirect = $request->query('redirect')) {
+            $redirectResponse = $redirectResponse->to($redirect);
+        } else {
+            $redirectResponse = $redirectResponse->back();
+        }
+
+        return $redirectResponse->with('success', 'Berhasil memperbarui status.');
     }
 
     /**

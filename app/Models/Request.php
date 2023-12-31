@@ -10,7 +10,7 @@ class Request extends Model
     use HasFactory;
 
     protected $fillable = [
-        'product_id', 'email', 'quantity', 'requested_date', 'status', 'description',
+        'product_id', 'user_id', 'email', 'quantity', 'requested_date', 'status', 'description',
     ];
 
     protected $casts = [

@@ -24,7 +24,7 @@ class UserSeeder extends Seeder
 
         // create admin
         User::create([
-            "name"         => "admin@gmail.com",
+            "name"         => "Admin",
             "email"        => "admin@gmail.com",
             "password"     => Hash::make(123456),
             "role"         => UserRole::ADMIN,
@@ -35,7 +35,7 @@ class UserSeeder extends Seeder
 
         // create client
         User::create([
-            "name"         => "client@gmail.com",
+            "name"         => "Client",
             "email"        => "client@gmail.com",
             "password"     => Hash::make(123456),
             "role"         => UserRole::CLIENT,
@@ -46,7 +46,7 @@ class UserSeeder extends Seeder
 
         // create artist
         User::create([
-            "name"         => "artist@gmail.com",
+            "name"         => "Artist",
             "email"        => "artist@gmail.com",
             "password"     => Hash::make(123456),
             "role"         => UserRole::ARTIST,

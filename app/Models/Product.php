@@ -6,13 +6,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Ramsey\Uuid\Uuid;
 
 class Product extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'image', 'price', 'description'];
+    protected $fillable = ['name', 'slug', 'image', 'price', 'description'];
 
     /**
      * A description of the artist function.
@@ -24,6 +25,11 @@ class Product extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
+    /**
+     * Delete the image associated with the product.
+     *
+     * @return void
+     */
     public function deleteImage()
     {
         Storage::delete('public/products/images/' . $this->image);
@@ -49,6 +55,18 @@ class Product extends Model
     }
 
     /**
+     * Sets the name attribute.
+     *
+     * @param mixed $value The value to set the name attribute to.
+     * @return void
+     */
+    public function setNameAttribute($value)
+    {
+        $this->attributes['name'] = $value;
+        $this->attributes['slug'] = Str::slug($value . '-' . uniqid());
+    }
+
+    /**
      * Retrieves the URL of the image attribute. Or default image URL if image file not exists
      *
      * @return string The URL of the image attribute.
@@ -70,5 +88,15 @@ class Product extends Model
     public function getRupiahFormattedPriceAttribute()
     {
         return currency_format($this->price);
+    }
+
+    /**
+     * Retrieves the collection of requests associated with this instance.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function requests()
+    {
+        return $this->hasMany(Request::class);
     }
 }

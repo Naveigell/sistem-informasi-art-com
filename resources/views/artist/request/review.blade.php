@@ -36,15 +36,15 @@
                     </tr>
                 </table>
                 <div class="mx-3 mt-4">
-                    <p>{!! strip_tags(nl2br($request->description)) !!}</p>
+                    <p>{!! strip_tags(nl2br($review->description)) !!}</p>
                 </div>
                 <div class="text-center">
                     <button
-                        data-action="{{ route('artist.requests.reviews.update', [$review, \App\Enums\RequestStatus::APPROVED]) }}"
+                        data-action="{{ route('artist.requests.reviews.update', [$review, \App\Enums\RequestStatus::APPROVED]) . '?' . http_build_query(['redirect' => route('artist.requests.incoming')]) }}"
                         class="btn btn-primary btn-accept">Accept
                     </button>
                     <button
-                        data-action="{{ route('artist.requests.reviews.update', [$review, \App\Enums\RequestStatus::REJECTED]) }}"
+                        data-action="{{ route('artist.requests.reviews.update', [$review, \App\Enums\RequestStatus::REJECTED]) . '?' . http_build_query(['redirect' => route('artist.requests.incoming')]) }}"
                         class="btn btn-danger btn-reject">Reject
                     </button>
                 </div>

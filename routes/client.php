@@ -19,4 +19,6 @@ Route::resource('requests.payments', \App\Http\Controllers\Client\RequestPayment
     ->shallow()
     ->only('edit', 'update');
 Route::resource('requests', \App\Http\Controllers\Client\RequestController::class)->except('index');
-Route::resource('explores', \App\Http\Controllers\Client\ExploreController::class)->only('index', 'show', 'store');
+Route::resource('explores', \App\Http\Controllers\Client\ExploreController::class)
+    ->parameter('explores', 'product:slug')
+    ->only('index', 'show', 'edit', 'update');

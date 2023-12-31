@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers\Client;
 
+use App\Enums\RequestStatus;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Client\ExploreRequest;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class ExploreController extends Controller
@@ -14,7 +17,16 @@ class ExploreController extends Controller
      */
     public function index()
     {
-        return view('client.explore.index');
+        $query = Product::with('artist');
+
+        // search by name if there is a query parameter
+        if (request()->query('query')) {
+            $query->where('name', 'like', '%' . request()->query('query') . '%');
+        }
+
+        $products = $query->paginate(10)->withQueryString();
+
+        return view('client.explore.index', compact('products'));
     }
 
     /**
@@ -39,37 +51,43 @@ class ExploreController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Show the given product.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Product $product The product to be shown.
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View The view for displaying the product.
      */
-    public function show($id)
+    public function show(Product $product)
     {
-        //
+        return view('client.explore.show', compact('product'));
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Edit a product.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Product $product The product to edit.
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View The view for the product edit form.
      */
-    public function edit($id)
+    public function edit(Product $product)
     {
-        //
+        return view('client.explore.form', compact('product'));
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update a product.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param ExploreRequest $request The explore request object.
+     * @param Product $product The product object.
+     * @return \Illuminate\Http\RedirectResponse The redirect response object.
      */
-    public function update(Request $request, $id)
+    public function update(ExploreRequest $request, Product $product)
     {
-        //
+        $product->requests()->create(array_merge($request->validated(), [
+            'user_id'        => auth()->id(),
+            'status'         => RequestStatus::PENDING,
+            'requested_date' => now()->toDateTimeString(),
+        ]));
+
+        return redirect(route('client.explores.index'))->with('success', 'Berhasil mengirim request');
     }
 
     /**
