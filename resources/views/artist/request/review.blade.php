@@ -36,7 +36,7 @@
                     </tr>
                 </table>
                 <div class="mx-3 mt-4">
-                    <p>{{ $review->description }}</p>
+                    <p>{!! strip_tags(nl2br($request->description)) !!}</p>
                 </div>
                 <div class="text-center">
                     <button

@@ -11,5 +11,12 @@ Route::prefix('requests')->name('requests.')->group(function () {
     Route::get('/active', [\App\Http\Controllers\Client\RequestController::class, 'active'])->name('active');
     Route::get('/ready-review', [\App\Http\Controllers\Client\RequestController::class, 'readyReview'])->name('ready-review');
 });
-Route::resource('requests.payments', \App\Http\Controllers\Client\RequestPaymentController::class)->shallow()->only('edit', 'update');
+Route::patch('/requests/{request}/{type}', [\App\Http\Controllers\Client\RequestController::class, 'update'])
+    ->name('requests.update.type')
+    ->where('type', implode('|', [\App\Enums\RequestStatus::CANCELLED]));
+Route::resource('requests.payments', \App\Http\Controllers\Client\RequestPaymentController::class)
+    ->parameter('payments', 'request')
+    ->shallow()
+    ->only('edit', 'update');
 Route::resource('requests', \App\Http\Controllers\Client\RequestController::class)->except('index');
+Route::resource('explores', \App\Http\Controllers\Client\ExploreController::class)->only('index', 'show', 'store');

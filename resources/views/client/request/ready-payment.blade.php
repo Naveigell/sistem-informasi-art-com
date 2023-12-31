@@ -24,6 +24,10 @@
                 </ul>
             </div>
 
+            @if($message = session('success'))
+                <x-alerts.alert :message="$message"></x-alerts.alert>
+            @endif
+
             <!-- Table -->
             <table class="table table-bordered">
                 <thead>
@@ -39,32 +43,36 @@
                 </thead>
 
                 <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Potrait cartoon style</td>
-                    <td>1</td>
-                    <td>1 januari 2023</td>
-                    <td>Pending</td>
-                    <td>Belum Lunas</td>
-                    <td>
-                        <a href="{{ route('client.payments.edit', 1) }}" class="btn btn-primary">Pay Now</a>
-                    </td>
-                </tr>
+                @foreach($requests as $request)
+                    <tr>
+                        <td>{{ $requests->firstItem() + $loop->index }}</td>
+                        <td>{{ $request->product->name }}</td>
+                        <td>{{ $request->quantity }}</td>
+                        <td>{{ $request->requested_date->format('d F Y') }}</td>
+                        <td>
+                            @if($request->status == \App\Enums\RequestStatus::APPROVED)
+                                <span class="badge bg-success">Approved</span>
+                            @elseif($request->status == \App\Enums\RequestStatus::PENDING)
+                                <span class="badge bg-dark">Pending</span>
+                            @elseif($request->status == \App\Enums\RequestStatus::REJECTED)
+                                <span class="badge bg-danger">Rejected</span>
+                            @endif
+                        </td>
+                        <td>Belum Lunas</td>
+                        <td>
+                            <a href="{{ route('client.payments.edit', $request) }}" class="btn btn-primary btn-sm">
+                                Pay Now
+                            </a>
+                        </td>
+                    </tr>
+                @endforeach
                 </tbody>
             </table>
 
             <!-- Card footer-->
-            <div class="card-footer">
+            <div class="card-footer d-flex justify-content-center">
                 <!-- Pagination -->
-                <nav aria-label="Page navigation">
-                    <ul class="pagination justify-content-center">
-                        <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                    </ul>
-                </nav>
+                {{ $requests->links() }}
             </div>
         </div>
     </div>

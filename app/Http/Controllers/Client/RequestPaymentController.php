@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Client;
 
+use App\Enums\PaymentStatus;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -50,26 +51,33 @@ class RequestPaymentController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Edit the specified request.
      *
-     * @param  int  $id
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
+     * @param  \App\Models\Request  $request The request to be edited.
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response The view for editing the request.
      */
-    public function edit($id)
+    public function edit(\App\Models\Request $request)
     {
-        return view('client.payment.payment');
+        $request->load('product', 'client');
+
+        return view('client.payment.payment', compact('request'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  \Illuminate\Http\Request  $validation The request object containing the data to be validated
+     * @param  \App\Models\Request  $request The request object representing the resource to be updated
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Routing\Redirector The response indicating the update was successful
      */
-    public function update(Request $request, $id)
+    public function update(Request $validation, \App\Models\Request $request)
     {
-        //
+        $request->payment()->create([
+            "amount" => $request->sub_total,
+            "status" => PaymentStatus::PAID,
+        ]);
+
+        return redirect(route('client.requests.ready-payment'))->with('success', 'Berhasil melakukan pembayaran');
     }
 
     /**

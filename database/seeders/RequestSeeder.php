@@ -9,6 +9,7 @@ use App\Models\Product;
 use App\Models\User;
 use Faker\Factory;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 
 class RequestSeeder extends Seeder
@@ -27,8 +28,8 @@ class RequestSeeder extends Seeder
         foreach ($clients as $client) {
             foreach ($products as $product) {
 
-                // 70% chance to skip, because we don't want to make a lot of request
-                if (rand(1, 10) > 3) {
+                // 40% chance to skip, because we don't want to make a lot of request
+                if (rand(1, 10) > 6) {
                     continue;
                 }
 
@@ -37,13 +38,16 @@ class RequestSeeder extends Seeder
                     'email'          => $client->email,
                     'quantity'       => rand(1, 5),
                     'requested_date' => now()->subDays(rand(4, 10))->toDateTimeString(),
-                    'status'         => RequestStatus::PENDING,
+                    // add status pending or approved
+                    // if request has payment below, the status is definitely approved
+                    'status'         => Arr::random([RequestStatus::PENDING, RequestStatus::APPROVED]),
                     'description'    => $faker->realTextBetween(3000, 5000),
                 ]);
 
-                // 70% chance to approve and make a payment
-                if (rand(1, 10) > 3) {
+                // 80% chance to approve and make a payment
+                if (rand(1, 10) > 2) {
                     DB::transaction(function () use ($request, $product) {
+                        // if request has payment, the status is definitely approved
                         $request->update([
                             'status' => RequestStatus::APPROVED,
                         ]);
@@ -53,6 +57,13 @@ class RequestSeeder extends Seeder
                             'status' => PaymentStatus::PAID,
                         ]);
                     });
+
+                    // 50% chance to finish
+                    if (rand(1, 10) > 5) {
+                        $request->update([
+                            'status' => RequestStatus::FINISHED,
+                        ]);
+                    }
                 }
             }
         }

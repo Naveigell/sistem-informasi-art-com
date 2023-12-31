@@ -14,7 +14,7 @@
                       <a class="nav-link text-black" href="#"><i class="fas fa-comments me-1"></i>Message</a>
                   </li>
                   <li class="nav-item">
-                      <a class="nav-link text-black" href="/find-artist"><i class="fas fa-search me-1"></i>Find Art and Artist</a>
+                      <a class="nav-link text-black" href="{{ route('client.explores.index') }}"><i class="fas fa-search me-1"></i>Find Art and Artist</a>
                   </li>
               </ul>
           </div>

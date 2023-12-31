@@ -18,6 +18,30 @@ class Request extends Model
     ];
 
     /**
+     * Calculate and format the subtotal in Rupiah.
+     *
+     * @return string The formatted subtotal in Rupiah.
+     */
+    public function getSubTotalRupiahFormattedAttribute()
+    {
+        $this->loadMissing('product');
+
+        return currency_format($this->sub_total);
+    }
+
+    /**
+     * Get the sub total attribute.
+     *
+     * @return int The sub total value.
+     */
+    public function getSubTotalAttribute()
+    {
+        $this->loadMissing('product');
+
+        return $this->product->price * $this->quantity;
+    }
+
+    /**
      * Retrieve the client associated with this instance.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
